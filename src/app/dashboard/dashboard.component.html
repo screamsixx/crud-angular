@@ -1,0 +1,350 @@
+<div class="container">
+  <div class="d-flex justify-content-start mb-3">
+    <dx-button text="Añadir producto" (onClick)="showAdd()"></dx-button>
+  </div>
+  <div>
+    <p-table [value]="articulos" class="table">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>ID</th>
+          <th>Código</th>
+          <th>ID de Tienda</th>
+          <th>Imagen</th>
+          <th>Descripción</th>
+          <th>Precio</th>
+          <th>Stock</th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-articulo>
+        <tr>
+          <td>{{ articulo.articuloID }}</td>
+          <td>{{ articulo.codigo }}</td>
+          <td>{{ articulo.tiendaID }}</td>
+          <td>
+            <img
+              src="{{ articulo.imagen }}"
+              alt="Imagen del artículo"
+              style="max-width: 100px; max-height: 100px"
+            />
+          </td>
+          <td>{{articulo.descripcion}}</td>
+          <td>{{articulo.precio}}</td>
+          <td>{{articulo.stock}}</td>
+          <td>
+            <button
+              class="btn btn-primary"
+              (click)="showeditarArticulo(articulo.articuloID)"
+            >
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button
+              class="btn btn-danger"
+              (click)="showeliminarArticulo(articulo.articuloID)"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<dx-popup [visible]="popupVisible" (onHidden)="hideAdd()">
+  <div class="popup-content">
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="codigo">Código</label>
+        <input
+          type="text"
+          id="codigo"
+          formControlName="codigo"
+          class="form-control"
+          required
+        />
+        <div
+          *ngIf="
+            productForm.controls['codigo'].invalid &&
+            productForm.controls['codigo'].touched
+          "
+          class="text-danger"
+        >
+          Código es requerido
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <input
+          type="text"
+          id="descripcion"
+          formControlName="descripcion"
+          class="form-control"
+          required
+        />
+        <div
+          *ngIf="
+            productForm.controls['descripcion'].invalid &&
+            productForm.controls['descripcion'].touched
+          "
+          class="text-danger"
+        >
+          Descripción es requerida
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="precio">Precio</label>
+        <input
+          type="number"
+          id="precio"
+          formControlName="precio"
+          class="form-control"
+          required
+          min="0"
+        />
+        <div
+          *ngIf="
+            productForm.controls['precio'].invalid &&
+            productForm.controls['precio'].touched
+          "
+          class="text-danger"
+        >
+          Precio es requerido
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="imagen">Imagen</label>
+        <dx-file-uploader
+          id="imagen"
+          formControlName="imagen"
+          accept="image/*"
+          [selectButtonText]="'Seleccionar imagen'"
+          (onValueChanged)="onImageValueChanged($event)"
+          class="form-control"
+          required
+          [showFileList]="false"
+        >
+        </dx-file-uploader>
+        <div
+          *ngIf="
+            productForm.controls['imagen'].invalid &&
+            productForm.controls['imagen'].touched
+          "
+          class="text-danger"
+        >
+          Imagen es requerida
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="stock">Stock</label>
+        <input
+          type="number"
+          id="stock"
+          formControlName="stock"
+          class="form-control"
+          required
+          min="0"
+        />
+        <div
+          *ngIf="
+            productForm.controls['stock'].invalid &&
+            productForm.controls['stock'].touched
+          "
+          class="text-danger"
+        >
+          Stock es requerido
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="tiendaID">ID de Tienda</label>
+        <select
+          id="tiendaID"
+          formControlName="tiendaID"
+          class="form-control"
+          required
+        >
+          <option *ngFor="let tienda of listatiendas" [value]="tienda.tiendaID">
+            {{ tienda.sucursal }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            productForm.controls['tiendaID'].invalid &&
+            productForm.controls['tiendaID'].touched
+          "
+          class="text-danger"
+        >
+          ID de Tienda es requerido
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="productForm.invalid"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</dx-popup>
+
+<dx-popup
+  [visible]="popupeliminar"
+  [showTitle]="false"
+  [width]="300"
+  [height]="200"
+>
+  <div class="popup-content">
+    <h4>¿Estás seguro de que deseas eliminar este articulo?</h4>
+    <div class="button-container">
+      <button class="btn btn-primary" (click)="eliminarProducto()">
+        Eliminar
+      </button>
+      <button class="btn btn-secondary" (click)="ocultarEliminar()">
+        Cancelar
+      </button>
+    </div>
+  </div>
+</dx-popup>
+
+<dx-popup [visible]="popupeditar" (onHidden)="ocultarEditar()">
+  <div class="popup-content">
+    <form [formGroup]="editorForm" (ngSubmit)="onSubmitEditor()">
+      <div class="form-group">
+        <label for="codigo">Código</label>
+        <input
+          type="text"
+          id="codigo"
+          formControlName="codigo"
+          class="form-control"
+        />
+        <div
+          *ngIf="
+            editorForm.controls['codigo'].invalid &&
+            editorForm.controls['codigo'].touched
+          "
+          class="text-danger"
+        >
+          Código es requerido
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <input
+          type="text"
+          id="descripcion"
+          formControlName="descripcion"
+          class="form-control"
+          required
+        />
+        <div
+          *ngIf="
+            editorForm.controls['descripcion'].invalid &&
+            editorForm.controls['descripcion'].touched
+          "
+          class="text-danger"
+        >
+          Descripción es requerida
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="precio">Precio</label>
+        <input
+          type="number"
+          id="precio"
+          formControlName="precio"
+          class="form-control"
+          required
+          min="0"
+        />
+        <div
+          *ngIf="
+            editorForm.controls['precio'].invalid &&
+            editorForm.controls['precio'].touched
+          "
+          class="text-danger"
+        >
+          Precio es requerido
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="imagen">Imagen</label>
+        <dx-file-uploader
+          id="imagen"
+          formControlName="imagen"
+          accept="image/*"
+          [selectButtonText]="'Seleccionar imagen'"
+          (onValueChanged)="onImageValueChanged($event)"
+          class="form-control"
+          required
+          [showFileList]="false"
+        >
+        </dx-file-uploader>
+        <div
+          *ngIf="
+            editorForm.controls['imagen'].invalid &&
+            editorForm.controls['imagen'].touched
+          "
+          class="text-danger"
+        >
+          Imagen es requerida
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="stock">Stock</label>
+        <input
+          type="number"
+          id="stock"
+          formControlName="stock"
+          class="form-control"
+          required
+          min="0"
+        />
+        <div
+          *ngIf="
+            editorForm.controls['stock'].invalid &&
+            editorForm.controls['stock'].touched
+          "
+          class="text-danger"
+        >
+          Stock es requerido
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="tiendaID">ID de Tienda</label>
+        <select
+          id="tiendaID"
+          formControlName="tiendaID"
+          class="form-control"
+          required
+        >
+          <option *ngFor="let tienda of listatiendas" [value]="tienda.tiendaID">
+            {{ tienda.sucursal }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            editorForm.controls['tiendaID'].invalid &&
+            editorForm.controls['tiendaID'].touched
+          "
+          class="text-danger"
+        >
+          ID de Tienda es requerido
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="editorForm.invalid"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</dx-popup>

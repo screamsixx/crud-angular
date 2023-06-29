@@ -1,0 +1,27 @@
+<ng-container *ngIf="listacarrito.length > 0; else noItemsTemplate">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Imagen</th>
+        <th>Descripción</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <th>Subtotal</th>
+        <th>...</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listacarrito">
+        <td><img [src]="'data:image/png;base64,'+item.imagen" alt="Imagen del artículo" width="50px" height="50px"></td>
+        <td>{{ item.descripcion }}</td>
+        <td>{{ item.cantidad }}</td>
+        <td>{{ item.precio}}</td>
+        <td>{{ item.precio * item.cantidad}}</td>
+        <td><button class="btn btn-primary" (click)="restar(item)">-</button> <button class="btn btn-primary" (click)="sumar(item)">+</button></td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>
+<ng-template #noItemsTemplate>
+  <p>Oops, parece que no has añadido artículos todavía.</p>
+</ng-template>

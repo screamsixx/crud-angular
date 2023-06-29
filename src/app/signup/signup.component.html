@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-4 col-md-6 col-sm-8">
+      <div class="card">
+        <div class="card-header">Formulario de registro</div>
+        <div class="card-body">
+          <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input type="text" class="form-control" id="nombre" [formControlName]="'nombre'">
+              <div class="text-danger" *ngIf="registroForm.controls['nombre'].invalid && (registroForm.controls['nombre'].dirty || registroForm.controls['nombre'].touched)">
+                Ingresa tu nombre.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="apellidos">Apellidos</label>
+              <input type="text" class="form-control" id="apellidos" [formControlName]="'apellidos'">
+              <div class="text-danger" *ngIf="registroForm.controls['apellidos'].invalid && (registroForm.controls['apellidos'].dirty || registroForm.controls['apellidos'].touched)">
+                Ingresa tus apellidos.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="direccion">Dirección</label>
+              <input type="text" class="form-control" id="direccion" [formControlName]="'direccion'">
+              <div class="text-danger" *ngIf="registroForm.controls['direccion'].invalid && (registroForm.controls['direccion'].dirty || registroForm.controls['direccion'].touched)">
+                Ingresa tu dirección.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" [formControlName]="'email'">
+              <div class="text-danger" *ngIf="registroForm.controls['email'].invalid && (registroForm.controls['email'].dirty || registroForm.controls['email'].touched)">
+                Ingresa tu email
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password">Contraseña</label>
+              <input type="password" class="form-control" id="password" [formControlName]="'password'">
+              <div class="text-danger" *ngIf="registroForm.controls['password'].invalid && (registroForm.controls['password'].dirty || registroForm.controls['password'].touched)">
+                Ingresa una contraseña con al menos 6 caracteres.
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="registroForm.invalid">Registrarse</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

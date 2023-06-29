@@ -1,0 +1,23 @@
+.navbar-nav .nav-link.active {
+  font-weight: bold;
+  text-decoration: underline;
+  text-decoration-color: white;
+}
+
+  
+  .content-section {
+    padding: 20px;
+    margin-bottom: 60px; /* Ajusta este valor según el tamaño del footer */
+
+  }
+  
+  .footer-section {
+    color: #fff;
+    text-align: center;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 10px;
+    background-color: #333;
+  }
