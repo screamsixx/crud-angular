@@ -20,7 +20,7 @@
           <td>{{ articulo.tiendaID }}</td>
           <td>
             <img
-              src="{{ articulo.imagen }}"
+              src="{{ articulo.imagen ? articulo.imagen:'/assets/default-product.png'}}"
               alt="Imagen del artículo"
               style="max-width: 100px; max-height: 100px"
             />
@@ -38,7 +38,7 @@
             <button class="btn" (click)="showguardar(articulo)">
               <span class="bi bi-save"></span> Guardar
             </button>
-          </td>          
+          </td>
         </tr>
       </ng-template>
     </p-table>

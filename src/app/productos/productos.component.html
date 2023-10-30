@@ -1,7 +1,7 @@
 <p-carousel [value]="articulos" [showIndicators]="false" [numVisible]="3" [numScroll]="3" [circular]="true" [style]="{'max-height': '400px', 'overflow-y': 'scroll'}">
   <ng-template let-articulo pTemplate="item">
     <div class="card">
-      <img class="card-img-top" [src]="articulo.imagen" height="200px" width="50px" alt="Imagen del producto">
+      <img class="card-img-top" src="{{articulo.imagen ? articulo.imagen:'/assets/default-product.png'}}" height="200px" width="50px" alt="Imagen del producto">
       <div class="card-body">
         <h5 class="card-title">{{ articulo.descripcion }}</h5>
         <p class="card-text">Precio: {{ articulo.precio }}</p>
