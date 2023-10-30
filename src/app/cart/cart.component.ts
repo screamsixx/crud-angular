@@ -8,9 +8,11 @@ import { Detallecarrito } from '../interfaces/detallecarrito';
 })
 export class CartComponent implements OnInit {
   listacarrito: Detallecarrito[]=[];
-  identificador = Number(localStorage.getItem('email'));
+  identificador:number;
 
-  constructor(private serviciocarrito:CarritoServiceService) { }
+  constructor(private serviciocarrito:CarritoServiceService) {
+   this.identificador= Number(localStorage.getItem('id'));
+  }
 
   ngOnInit() {
     this.getmycarrito();//buscar el carrito del usuario logueado
@@ -24,14 +26,14 @@ export class CartComponent implements OnInit {
   }
 
   sumar(detallecarrito:Detallecarrito){
-    console.log(detallecarrito);
+    detallecarrito.clienteID=this.identificador;
     this.serviciocarrito.sumarCantidadCarrito(detallecarrito).subscribe(res=>{
       this.getmycarrito();//rellena tabla
       console.log(res);
     });
   }
   restar(detallecarrito:Detallecarrito){
-    console.log(detallecarrito);
+    detallecarrito.clienteID=this.identificador;
     this.serviciocarrito.restarCantidadCarrito(detallecarrito).subscribe(res=>{
       this.getmycarrito();//rellena tabla
       console.log(res);

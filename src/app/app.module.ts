@@ -21,10 +21,13 @@ import { TableModule } from 'primeng/table';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { CarouselModule } from 'primeng/carousel';
 import { EditarproductoComponent } from './editarproducto/editarproducto.component';
+import { ToastrModule, provideToastr } from 'ngx-toastr';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations'; // Importa BrowserAnimationsModule
+import { DataViewModule } from 'primeng/dataview';
 
 
 @NgModule({
-  declarations: [								
+  declarations: [
     AppComponent,
       LoginComponent,
       SignupComponent,
@@ -36,6 +39,7 @@ import { EditarproductoComponent } from './editarproducto/editarproducto.compone
       EditarproductoComponent
    ],
   imports: [
+    DataViewModule,
     CarouselModule,
     ScrollPanelModule,
     TableModule,
@@ -47,9 +51,8 @@ import { EditarproductoComponent } from './editarproducto/editarproducto.compone
     AppRoutingModule,
     DxButtonModule,
     DxDataGridModule,
-    RouterOutlet,
     DxBoxModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

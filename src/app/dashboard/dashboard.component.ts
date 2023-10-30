@@ -50,8 +50,8 @@ export class DashboardComponent implements OnInit {
       stock: ['', Validators.required],
       tiendaID: ['', Validators.required],
     });
-    
-    
+
+
     this.serviciotienda.getTiendas().subscribe((res) => {
       console.log(res);
       this.listatiendas = res;
@@ -71,7 +71,7 @@ export class DashboardComponent implements OnInit {
   ocultarEliminar() {
     this.popupeliminar = false;
   }
-  
+
   eliminarProducto() {
     const nuevoArticulo: Articulo = {
       articuloID: this.id,

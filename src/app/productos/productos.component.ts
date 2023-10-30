@@ -27,7 +27,7 @@ export class ProductosComponent implements OnInit {
   agregarAlCarrito(articulo: Articulo, cantidad: any) {
     console.log(articulo);
     console.log(cantidad);
-    const identificarusuario = localStorage.getItem("email");
+    const identificarusuario = Number(localStorage.getItem('id'));
 
     // Llama al servicio CarritoService para insertar el carrito
     const carrito:Carrito = {
@@ -36,7 +36,7 @@ export class ProductosComponent implements OnInit {
       cantidad: cantidad,
       carritoID: 0
     };
-  
+
     this.carritoService.insertCarrito(carrito).subscribe(
       response => {
         console.log(response.message); // Mensaje de éxito
@@ -48,6 +48,6 @@ export class ProductosComponent implements OnInit {
       }
     );
   }
-  
+
 
 }

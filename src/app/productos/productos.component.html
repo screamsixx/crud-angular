@@ -1,14 +1,16 @@
-<p-carousel [value]="articulos" [showIndicators]="false" [numVisible]="3" [numScroll]="3" [circular]="true" [style]="{'max-height': '400px', 'overflow-y': 'scroll'}">
-  <ng-template let-articulo pTemplate="item">
+<p-dataView style="display: flex; justify-content: center;" [value]="articulos" [paginator]="true" [rows]="4" [style]="{'max-height': '400px', 'overflow-y': 'scroll'}">
+  <ng-template let-articulo pTemplate="listItem">
     <div class="card">
-      <img class="card-img-top" src="{{articulo.imagen ? articulo.imagen:'/assets/default-product.png'}}" height="200px" width="50px" alt="Imagen del producto">
+      <div style="display: flex;justify-content: center;" class="input-group-append">
+        <img class="card-img-top" [src]="articulo.imagen ? articulo.imagen : '/assets/default-product.png'" style="border-radius: 50%;overflow: hidden; width: 50px;height: 50px;" alt="Imagen del producto">
+      </div>
       <div class="card-body">
-        <h5 class="card-title">{{ articulo.descripcion }}</h5>
-        <p class="card-text">Precio: {{ articulo.precio }}</p>
-        <p class="card-text">Stock: {{ articulo.stock }}</p>
-        <div class="input-group">
+        <h5 style="display: flex;justify-content: center;" class="card-title">{{ articulo.descripcion }}</h5>
+        <p style="display: flex;justify-content: center;" class="card-text">Precio: {{ articulo.precio }}</p>
+        <p style="display: flex;justify-content: center;" class="card-text">Stock: {{ articulo.stock }}</p>
+        <div style="display: flex;justify-content: center;" class="input-group">
           <input type="number" id="cantidaddeproductos" min="1" value="1" [max]="articulo.stock" #cantidadInput>
-          <div class="input-group-append">
+          <div style="display: flex;justify-content: center;" class="input-group-append">
             <button class="btn btn-primary" (click)="agregarAlCarrito(articulo, cantidadInput.value)">
               <i class="bi bi-cart-fill"></i> Agregar al carrito
             </button>
@@ -17,4 +19,5 @@
       </div>
     </div>
   </ng-template>
-</p-carousel>
+</p-dataView>
+

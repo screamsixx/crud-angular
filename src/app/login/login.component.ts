@@ -5,6 +5,7 @@ import { Cliente } from 'src/app/interfaces/cliente';
 import { Router } from '@angular/router';
 import { Tokendata } from '../interfaces/tokendata';
 import { AuthService } from '../services/Auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -28,13 +29,22 @@ token:Tokendata;
   onSubmit(): void {
     const email = this.loginForm.get('email')?.value;
     const password = this.loginForm.get('password')?.value;
-    // hacer login
-    this.servicioAuth.login(email,password).subscribe(res=>{
-      this.token=res;
-      console.log(res);
-      localStorage.setItem('email', this.token.email); //a partir de aqui ya tendría acceso
-      localStorage.setItem('token', this.token.token); //a partir de aqui ya tendría acceso
-      this.router.navigate(['/dashboard']);//redireccionar al inicio
-  });
+    // Realizar el inicio de sesión
+    this.servicioAuth.login(email, password).subscribe(
+      (res) => {
+        // Manejar la respuesta exitosa
+        this.token = res;
+        console.log(res);
+        localStorage.setItem('email', this.token.email); // Almacena el correo en el almacenamiento local
+        localStorage.setItem('token', this.token.token); // Almacena el token en el almacenamiento local
+        localStorage.setItem('id', this.token.id); // Almacena el token en el almacenamiento local
+        this.router.navigate(['/dashboard']); // Redireccionar al dashboard
+      },
+      (error) => {
+        // Manejar el error
+        console.error('Ocurrió un error al iniciar sesión:', error);
+        // Puedes mostrar un mensaje de error al usuario o realizar otras acciones aquí
+      }
+    );
   }
 }
