@@ -17,6 +17,7 @@
           <a href="/dashboard" class="nav-item nav-link">Dashboard</a>
           <a href="/productos" class="nav-item nav-link">Productos</a>
           <a href="/carrito" class="nav-item nav-link">Carrito</a>
+          <a *ngIf="exist" (click)="logout()" class="nav-item nav-link">Salir</a>
         </div>
         <div class="navbar-nav ms-auto"></div>
       </div>

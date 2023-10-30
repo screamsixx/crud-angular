@@ -3,7 +3,7 @@
     <dx-button text="Añadir producto" (onClick)="showAdd()"></dx-button>
   </div>
   <div>
-    <p-table [value]="articulos" class="table">
+    <p-table [value]="articulos" class="table" [paginator]="true" [rows]="1">
       <ng-template pTemplate="header">
         <tr>
           <th>ID</th>

@@ -8,10 +8,10 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent implements OnInit{
   title = 'app';
+exist:any;
 
-  
   constructor() {
-
+    this.exist=(localStorage.getItem('id'));
   }
 
   private isLoggedValueValid(value: string | null): boolean {
@@ -19,6 +19,11 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(): void {
+  }
+
+  logout(){
+    localStorage.clear();
+    window.location.reload(); // Recarga la página
   }
 
 
